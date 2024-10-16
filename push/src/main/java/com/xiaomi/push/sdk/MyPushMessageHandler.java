@@ -57,6 +57,7 @@ public class MyPushMessageHandler extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
+        if (intent == null) return;
         byte[] payload = intent.getByteArrayExtra(PushConstants.MIPUSH_EXTRA_PAYLOAD);
         if (payload == null) {
             logger.e("mipush_payload is null");
@@ -85,7 +86,7 @@ public class MyPushMessageHandler extends IntentService {
             return;
         }
 
-        final XmPushActionContainer container = XMPushUtils.packToContainer(payload);
+        final XmPushActionContainer container = MIPushEventProcessor.buildContainer(payload);
         if (container == null) {
             return;
         }
@@ -93,6 +94,7 @@ public class MyPushMessageHandler extends IntentService {
     }
 
     public static void cancelNotification(Context context, Bundle bundle, XmPushActionContainer container) {
+        if (bundle == null) return;
         int notificationId = bundle.getInt(Constants.INTENT_NOTIFICATION_ID, 0);
         String notificationGroup = bundle.getString(Constants.INTENT_NOTIFICATION_GROUP);
         try {
@@ -122,14 +124,14 @@ public class MyPushMessageHandler extends IntentService {
         pullUpApp(context, targetPackage, container);
     }
 
-    public static ComponentName startService(Context context, XmPushActionContainer container, byte[] payload) {
+    public static void startService(Context context, XmPushActionContainer container, byte[] payload) {
         launchApp(context, container);
 
         return forwardToTargetApplication(context, payload);
     }
 
-    public static ComponentName forwardToTargetApplication(Context context, byte[] payload) {
-        XmPushActionContainer container = XMPushUtils.packToContainer(payload);
+    public static void forwardToTargetApplication(Context context, byte[] payload) {
+        XmPushActionContainer container = MIPushEventProcessor.buildContainer(payload);
         PushMetaInfo metaInfo = container.getMetaInfo();
         String targetPackage = container.getPackageName();
 
@@ -139,8 +141,7 @@ public class MyPushMessageHandler extends IntentService {
         localIntent.putExtra(MIPushNotificationHelper.FROM_NOTIFICATION, true);
         localIntent.addCategory(String.valueOf(metaInfo.getNotifyId()));
         logger.d(packageInfo(targetPackage, "send to service"));
-        ComponentName componentName = context.startService(localIntent);
-        return componentName;
+        context.startService(localIntent);
     }
 
     private static void activeApp(Context context, String targetPackage) {
@@ -197,18 +198,23 @@ public class MyPushMessageHandler extends IntentService {
                 appContext.unbindService(this);
             }
 
-            @RequiresApi(P) @Override public void onNullBinding(final ComponentName name) {
+            @RequiresApi(P)
+            @Override
+            public void onNullBinding(final ComponentName name) {
                 runTaskAndUnbind();
             }
 
-            @Override public void onServiceConnected(final ComponentName name, final IBinder service) {
+            @Override
+            public void onServiceConnected(final ComponentName name, final IBinder service) {
                 runTaskAndUnbind();     // Should not happen
             }
 
-            @Override public void onServiceDisconnected(final ComponentName name) {}
+            @Override
+            public void onServiceDisconnected(final ComponentName name) {
+            }
         }, BIND_AUTO_CREATE | BIND_IMPORTANT | BIND_ABOVE_CLIENT);
 
-        if (! successful) task.accept(Boolean.FALSE);
+        if (!successful) task.accept(Boolean.FALSE);
     }
 
     private static long pullUpApp(Context context, String targetPackage, XmPushActionContainer container) {
@@ -269,7 +275,7 @@ public class MyPushMessageHandler extends IntentService {
     }
 
     private static String packageInfo(String packageName, String message) {
-        return "[" + packageName +"] " + message;
+        return "[" + packageName + "] " + message;
     }
 }
 
