@@ -12,12 +12,12 @@
         android:actionLayout="@layout/switch_layout"
         app:showAsAction="always"
         />
-    <item
-        android:id="@+id/action_help"
-        android:title="@string/action_help"
-        android:icon="@drawable/ic_help_outline_24"
-        app:showAsAction="ifRoom"
-         />
+<!--    <item-->
+<!--        android:id="@+id/action_help"-->
+<!--        android:title="@string/action_help"-->
+<!--        android:icon="@drawable/ic_help_outline_24"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--         />-->
     <item
         android:id="@+id/action_update"
         android:title="@string/action_update"
