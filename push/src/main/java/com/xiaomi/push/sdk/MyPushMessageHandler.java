@@ -20,7 +20,6 @@ import com.elvishew.xlog.Logger;
 import com.elvishew.xlog.XLog;
 import com.nihility.Global;
 import com.nihility.XMPushUtils;
-import com.topjohnwu.superuser.Shell;
 import com.xiaomi.push.service.MIPushNotificationHelper;
 import com.xiaomi.push.service.MyMIPushNotificationHelper;
 import com.xiaomi.push.service.PushConstants;
@@ -162,7 +161,7 @@ public class MyPushMessageHandler extends IntentService {
                 logger.e(packageInfo(targetPackage, "activeApp failed " + e.getLocalizedMessage()), e);
             }
         }
-        Shell.cmd("pm enable " + targetPackage).exec();
+        // Shell.cmd("pm enable " + targetPackage).exec();
     }
 
 
