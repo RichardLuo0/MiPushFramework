@@ -246,16 +246,7 @@ public class NotificationController {
             if (iconBitmap == null) {
                 return Notification.COLOR_DEFAULT;
             }
-            int color = ColorUtil.getIconColor(iconBitmap);
-            if (color != Notification.COLOR_DEFAULT) {
-                final float[] hsl = new float[3];
-                ColorUtils.colorToHSL(color, hsl);
-                hsl[1] = 0.94f;
-                hsl[2] = Math.min(hsl[2] * 0.6f, 0.31f);
-                return ColorUtils.HSLToColor(hsl);
-            } else {
-                return Notification.COLOR_DEFAULT;
-            }
+            return ColorUtil.getIconColor(iconBitmap);
         });
     }
 

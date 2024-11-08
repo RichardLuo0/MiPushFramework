@@ -17,7 +17,7 @@ import android.text.style.ForegroundColorSpan;
 public class ColorUtil {
     public static int getIconColor(Bitmap bitmap) {
         return Palette.from(bitmap)
-                .generate().getVibrantColor(Notification.COLOR_DEFAULT);
+                .generate().getLightVibrantColor(Notification.COLOR_DEFAULT);
     }
 
 
