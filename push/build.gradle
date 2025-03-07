@@ -151,10 +151,10 @@ dependencies {
     })
 
     implementation 'com.github.heruoxin:IceBox-SDK:55dd857d74'
-    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // The core module that provides APIs to a shell
-    implementation "com.github.topjohnwu.libsu:core:5.0.5"
+    // implementation "com.github.topjohnwu.libsu:core:5.0.5"
 
     // https://mvnrepository.com/artifact/com.github.promeg/tinypinyin
     implementation 'com.github.promeg:tinypinyin:2.0.3'
