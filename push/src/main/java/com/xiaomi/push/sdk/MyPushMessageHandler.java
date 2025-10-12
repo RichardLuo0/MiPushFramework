@@ -15,7 +15,6 @@ import android.os.IBinder;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
-import com.catchingnow.icebox.sdk_client.IceBox;
 import com.elvishew.xlog.Logger;
 import com.elvishew.xlog.XLog;
 import com.nihility.Global;

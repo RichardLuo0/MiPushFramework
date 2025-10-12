@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.catchingnow.icebox.sdk_client.IceBox
 import com.xiaomi.xmsf.R
 import com.xiaomi.xmsf.SettingUtils
 import com.xiaomi.xmsf.utils.ConfigCenter
@@ -147,7 +146,7 @@ private fun ExperimentalBlock() {
             enabled = SettingUtils.isIceBoxInstalled()
         ) {
             if (!iceBoxGranted) {
-                permissionsLauncher.launch(arrayOf(IceBox.SDK_PERMISSION))
+                // permissionsLauncher.launch(arrayOf(IceBox.SDK_PERMISSION))
             }
             iceBoxGranted = !iceBoxGranted
             setIceBoxSupported(context, iceBoxGranted)
