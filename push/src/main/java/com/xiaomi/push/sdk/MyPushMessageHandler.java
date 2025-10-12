@@ -84,7 +84,7 @@ public class MyPushMessageHandler extends IntentService {
             return;
         }
 
-        final XmPushActionContainer container = MIPushEventProcessor.buildContainer(payload);
+        final XmPushActionContainer container = XMPushUtils.packToContainer(payload);
         if (container == null) {
             return;
         }
@@ -122,14 +122,14 @@ public class MyPushMessageHandler extends IntentService {
         pullUpApp(context, targetPackage, container);
     }
 
-    public static void startService(Context context, XmPushActionContainer container, byte[] payload) {
+    public static ComponentName startService(Context context, XmPushActionContainer container, byte[] payload) {
         launchApp(context, container);
 
         return forwardToTargetApplication(context, payload);
     }
 
-    public static void forwardToTargetApplication(Context context, byte[] payload) {
-        XmPushActionContainer container = MIPushEventProcessor.buildContainer(payload);
+    public static ComponentName forwardToTargetApplication(Context context, byte[] payload) {
+        XmPushActionContainer container = XMPushUtils.packToContainer(payload);
         PushMetaInfo metaInfo = container.getMetaInfo();
         String targetPackage = container.getPackageName();
 
@@ -139,7 +139,8 @@ public class MyPushMessageHandler extends IntentService {
         localIntent.putExtra(MIPushNotificationHelper.FROM_NOTIFICATION, true);
         localIntent.addCategory(String.valueOf(metaInfo.getNotifyId()));
         logger.d(packageInfo(targetPackage, "send to service"));
-        context.startService(localIntent);
+        ComponentName componentName = context.startService(localIntent);
+        return componentName;
     }
 
     private static void activeApp(Context context, String targetPackage) {

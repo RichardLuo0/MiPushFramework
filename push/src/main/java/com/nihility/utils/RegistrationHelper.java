@@ -50,14 +50,14 @@ public class RegistrationHelper {
     }
 
     public boolean removeMiPushXml() {
-//        Shell.Result result = Shell.cmd(String.format(
-//                "rm $(ls -1" +
-//                        " /data/user/0/%s/shared_prefs/mipush*.xml" +
-//                        " /data_mirror/data_ce/null/0/%s/shared_prefs/mipush*.xml" +
-//                        " 2> /dev/null)",
-//                packageName, packageName)
-//        ).exec();
-//        return result.isSuccess();
+        Shell.Result result = Shell.cmd(String.format(
+                "rm $(ls -1" +
+                        " /data/user/0/%s/shared_prefs/mipush*.xml" +
+                        " /data_mirror/data_ce/null/0/%s/shared_prefs/mipush*.xml" +
+                        " 2> /dev/null)",
+                packageName, packageName)
+        ).exec();
+        return result.isSuccess();
     }
 
     public void deleteRegistrationInfoAndRetryForceRegister() {
