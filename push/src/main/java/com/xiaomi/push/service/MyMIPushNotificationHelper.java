@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.Person;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
@@ -136,6 +137,11 @@ public class MyMIPushNotificationHelper {
                 executorService.execute(() -> {
                     try {
                         doNotifyPushMessage(context, container, decryptedContent);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        Intent var5 = new Intent(context, com.xiaomi.push.service.XMPushService.class);
+                        var5.setAction(PushServiceConstants.ACTION_UNINSTALL);
+                        var5.putExtra(PushServiceConstants.EXTRA_UNINSTALL_PKG_NAME, getTargetPackage(container));
+                        ContextCompat.startForegroundService(context, var5);
                     } catch (Exception e) {
                         logger.e(e.getLocalizedMessage(), e);
                     }
@@ -212,7 +218,7 @@ public class MyMIPushNotificationHelper {
         }
     }
 
-    private static void doNotifyPushMessage(Context context, XmPushActionContainer container, byte[] decryptedContent) {
+    private static void doNotifyPushMessage(Context context, XmPushActionContainer container, byte[] decryptedContent) throws PackageManager.NameNotFoundException {
         PushMetaInfo metaInfo = container.getMetaInfo();
         logPushMessage(metaInfo);
 
